@@ -62,7 +62,7 @@
 
 \bool_if:NTF \l_snu_cse_ms_thesis_en_bool
   { % English main
-    \LoadClass[11pt, a4paper]{report}
+    \LoadClass[11pt, b5paper]{report}
     \RequirePackage{kotex}
 
 
@@ -87,7 +87,7 @@
     }
   }
   { % Korean main
-    \LoadClass[11pt, a4paper]{report}
+    \LoadClass[11pt, b5paper]{report}
     \RequirePackage[hangul]{kotex}
 
     \RequirePackage[doublespacing]{setspace}
@@ -146,20 +146,22 @@
 \setmainhangulfont{Noto Serif CJK KR}[Scale=MatchUppercase, InterLatinCJK=0.13em]
 \setsanshangulfont{Noto Sans CJK KR}[Scale=MatchUppercase, InterLatinCJK=0.13em]
 
-\usepackage[symbols]{bboldx}
-
-\RequirePackage{xcolor}
+\RequirePackage[dvipsnames]{xcolor}
 
 % Chapter style
 \RequirePackage{titlesec}
 
 % Bibliography
-\RequirePackage[style=ieee]{biblatex}
+\RequirePackage[citestyle=acmauthoryear]{biblatex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page layout configuration %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\paperwidth}{182mm}
+\setlength{\paperheight}{257mm}
+\setlength{\textwidth}{132mm}
+\setlength{\textheight}{192mm}
 \addtolength{\hoffset}{-1in}
 \addtolength{\voffset}{-1in}
 \setlength{\topmargin}{30mm}
@@ -168,8 +170,6 @@
 \setlength{\marginparwidth}{0mm}
 \setlength{\marginparsep}{0mm}
 \setlength{\oddsidemargin}{25mm}
-\setlength{\textwidth}{160mm}
-\setlength{\textheight}{227mm}
 \setlength{\footskip}{20mm}
 
 
@@ -214,12 +214,16 @@
   { \clist_set:Nn \l_snu_cse_ms_thesis_keywords_en_clist { #1 } }
 
 % https://github.com/latex3/hyperref/issues/242#issuecomment-1149845979
+
+\definecolor[named]{ACMPurple}{cmyk}{0.55,1,0,0.15}
+\definecolor[named]{ACMDarkBlue}{cmyk}{1,0.58,0,0.21}
 \AddToHook {begindocument/before} {
   \hypersetup{
     colorlinks,
-    linkcolor={black},
-    citecolor={red!73!black},
-    urlcolor={blue!60!black},
+    linkcolor=black,
+    citecolor=ACMPurple,
+    urlcolor=ACMDarkBlue,
+    filecolor=ACMDarkBlue,
 
     pdflang = { \bool_if:NTF \l_snu_cse_ms_thesis_en_bool { en } { ko } },
     pdfsubject = {공학석사~학위논문},
@@ -278,35 +282,33 @@
     % 인준지
     \thispagestyle{empty}
     \begin{center}
-      \fontsize{24pt}{27pt}\selectfont
-      \@title \\[0.5cm]
       \fontsize{20pt}{23pt}\selectfont
+      \@title \\[0.5cm]
+      \fontsize{18pt}{21pt}\selectfont
       \@titlealt \\
       \vfill
-      \fontsize{18pt}{21pt}\selectfont
+      \fontsize{16pt}{19pt}\selectfont
       지도교수~~\make_spaced:V \@advisor \\
-      \fontsize{20pt}{23pt}\selectfont
-      이~논문을~공학석사~학위~논문으로~제출함 \\
       \fontsize{18pt}{21pt}\selectfont
+      이~논문을~공학석사~학위~논문으로~제출함 \\
+      \fontsize{16pt}{19pt}\selectfont
       \@date \\
       \vfill
-      \fontsize{20pt}{23pt}\selectfont
-      서울대학교~대학원 \\
       \fontsize{18pt}{21pt}\selectfont
+      서울대학교~대학원 \\
+      \fontsize{16pt}{19pt}\selectfont
       컴퓨터공학부 \\
-      \fontsize{20pt}{23pt}\selectfont
+      \fontsize{18pt}{21pt}\selectfont
       \make_spaced:V \@approvalauthor \\
       \vfill
       \@approvalauthor의~공학석사~학위논문을~인준함 \\
-      \fontsize{18pt}{21pt}\selectfont
+      \fontsize{16pt}{19pt}\selectfont
       \@approvaldate \\
       \vfill
-      \begin{tblr}{
-        colspec={c Q[c,8em] c},
-      }
-        \makebox[4em][s]{위원장} & \make_spaced:n { \@committeechair } & (서명) \\
-        \makebox[4em][s]{부위원장} & \make_spaced:n { \@committeevchair } & (서명) \\
-        \makebox[4em][s]{위원} & \make_spaced:n { \@committeemember } & (서명)
+      \begin{tblr}{colspec={c Q[c,8em] c}}
+        \makebox[4em][s]{위원장} & \make_spaced:n { \@committeechair } & (인) \\
+        \makebox[4em][s]{부위원장} & \make_spaced:n { \@committeevchair } & (인) \\
+        \makebox[4em][s]{위원} & \make_spaced:n { \@committeemember } & (인)
       \end{tblr}
     \end{center}
     \newpage
@@ -366,21 +368,21 @@
           {
             \tl_if_eq:nnTF { #1 } { en }
               { % English abstract
-              \noindent Keywords:~\clist_use:Nnnn \l_snu_cse_ms_thesis_keywords_en_clist { ,~ } { ,~ } { ,~ }
+              \noindent \textbf{Keywords:}~\clist_use:Nnnn \l_snu_cse_ms_thesis_keywords_en_clist { ,~ } { ,~ } { ,~ }
               }
               { % Unrecognized language
-                \noindent 주요어:~\clist_use:Nnnn \l_snu_cse_ms_thesis_keywords_ko_clist { ,~ } { ,~ } { ,~ }
+                \noindent \textbf{주요어:}~\clist_use:Nnnn \l_snu_cse_ms_thesis_keywords_ko_clist { ,~ } { ,~ } { ,~ }
               }
           }
       }
       { % No language specified
         \bool_if:NTF \l_snu_cse_ms_thesis_en_bool
           { % English main
-            \noindent Keywords:~\clist_use:Nnnn
+            \noindent \textbf{Keywords:}~\clist_use:Nnnn
               \l_snu_cse_ms_thesis_keywords_en_clist { ,~ } { ,~ } { ,~ }
           }
           { % Korean main
-            \noindent 주요어:~\clist_use:Nnnn
+            \noindent \textbf{주요어:}~\clist_use:Nnnn
               \l_snu_cse_ms_thesis_keywords_ko_clist { ,~ } { ,~ } { ,~ }
           }
       }
